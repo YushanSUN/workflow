@@ -1,0 +1,222 @@
+/*
+ * Copyright Orchestra Networks 2000-2016. All rights reserved.
+ */
+package com.orchestranetworks.workflow.impl.definition.ui.editor;
+
+import java.util.*;
+
+/**
+ * Classes that are useful when generating or parsing JSON for workflow models.
+ */
+class Model
+{
+	private String label;
+	private final Map<String, Step> steps = new HashMap<String, Step>();
+
+	final static String START_STEP_KEY = "start";
+
+	Model()
+	{
+	}
+
+	String getLabel()
+	{
+		return this.label;
+	}
+
+	void setLabel(String aLabel)
+	{
+		this.label = aLabel;
+	}
+
+	Map<String, Step> getSteps()
+	{
+		return this.steps;
+	}
+
+	void putStep(String aKey, Step aStep)
+	{
+		this.steps.put(aKey, aStep);
+	}
+
+	static class Point
+	{
+		private int x;
+		private int y;
+
+		public Point(int aX, int aY)
+		{
+			this.x = aX;
+			this.y = aY;
+		}
+
+		public int getX()
+		{
+			return this.x;
+		}
+
+		public void setX(int x)
+		{
+			this.x = x;
+		}
+
+		public int getY()
+		{
+			return this.y;
+		}
+
+		public void setY(int y)
+		{
+			this.y = y;
+		}
+	}
+
+	static enum Connector {
+		left, top, right, bottom
+	}
+
+	static class Link
+	{
+		private Connector startConnector;
+		private String endStepKey;
+		private Connector endConnector;
+
+		// May be empty.
+		private List<Point> points = new ArrayList<Point>();
+
+		public Link(String anEndStepKey)
+		{
+			this.setEndStepKey(anEndStepKey);
+		}
+
+		Connector getStartConnector()
+		{
+			return this.startConnector;
+		}
+
+		void setStartConnector(Connector aStartConnector)
+		{
+			this.startConnector = aStartConnector;
+		}
+
+		String getEndStepKey()
+		{
+			return this.endStepKey;
+		}
+
+		void setEndStepKey(String anEndStepKey)
+		{
+			this.endStepKey = anEndStepKey;
+		}
+
+		Connector getEndConnector()
+		{
+			return this.endConnector;
+		}
+
+		void setEndConnector(Connector anEndConnector)
+		{
+			this.endConnector = anEndConnector;
+		}
+
+		List<Point> getPoints()
+		{
+			return this.points;
+		}
+
+		public void addPoint(int aX, int aY)
+		{
+			this.points.add(new Point(aX, aY));
+		}
+
+		public void setPoints(List<Point> points)
+		{
+			this.points = points;
+		}
+	}
+
+	static enum StepType {
+		start, end, user, script, condition, subworkflow, wait;
+	}
+
+	static class Step
+	{
+		private String label;
+		private StepType type;
+		private Link next;
+		private Link nextIfTrue;
+		private Link nextIfFalse;
+		private int x;
+		private int y;
+
+		String getLabel()
+		{
+			return this.label;
+		}
+
+		void setLabel(String aLabel)
+		{
+			this.label = aLabel;
+		}
+
+		StepType getType()
+		{
+			return this.type;
+		}
+
+		void setType(StepType aType)
+		{
+			this.type = aType;
+		}
+
+		Link getNext()
+		{
+			return this.next;
+		}
+
+		void setNext(Link aNext)
+		{
+			this.next = aNext;
+		}
+
+		Link getNextIfTrue()
+		{
+			return this.nextIfTrue;
+		}
+
+		void setNextIfTrue(Link aNextIfTrue)
+		{
+			this.nextIfTrue = aNextIfTrue;
+		}
+
+		Link getNextIfFalse()
+		{
+			return this.nextIfFalse;
+		}
+
+		void setNextIfFalse(Link aNextIfFalse)
+		{
+			this.nextIfFalse = aNextIfFalse;
+		}
+
+		int getX()
+		{
+			return this.x;
+		}
+
+		void setX(int aX)
+		{
+			this.x = aX;
+		}
+
+		int getY()
+		{
+			return this.y;
+		}
+
+		void setY(int aY)
+		{
+			this.y = aY;
+		}
+	}
+}
